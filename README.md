@@ -54,7 +54,7 @@ Administrators with the `SCP294.admin` permission have access to the RA command 
 -`scp294 givedrink <drink>` > Gives the player the drink that would have been given to them from SCP-294 for free into their inventory.
 
 ## Installation
-**This Plugin Requires MapEditorReborn, [you can download it here](https://github.com/Michal78900/MapEditorReborn/releases)**
+**This Plugin Requires MapEditorReborn, [you can download it here]([https://github.com/Michal78900/MapEditorReborn/releases](https://discord.com/channels/947849283514814486/995694845903524002)), you need to join the discord, because the latest testing release is needed**
 
 **This Plugin Requires SCPSLAudioApi, [you can download it here](https://github.com/CedModV2/SCPSLAudioApi/releases)**
 
