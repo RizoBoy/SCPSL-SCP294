@@ -16,7 +16,7 @@ namespace SCP294.Config
         ///  Will the plugin run?
         /// </summary>
         [Description("Will the plugin run?")]
-        public bool IsEnabled { get; set; } = true;
+        public bool IsEnabled { get; set; } = false;
         /// <summary>
         ///  Will the plugin print Debug Text?
         /// </summary>

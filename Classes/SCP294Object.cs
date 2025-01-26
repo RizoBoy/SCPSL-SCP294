@@ -20,6 +20,7 @@ using InventorySystem.Items;
 using Exiled.API.Features.Items;
 using MapEditorReborn.Commands.ModifyingCommands.Position;
 using MapEditorReborn.Commands.ModifyingCommands.Rotation;
+using AdvancedHints;
 
 namespace SCP294.Classes
 {
@@ -44,11 +45,11 @@ namespace SCP294.Classes
                         if (!SCP294.Instance.PlayersNear294.Contains(player.UserId)) {
                             SchematicObject scp294 = GetClosest294(player);
                             if (SCP294.Instance.SCP294UsesLeft.Keys.Contains(scp294) && SCP294.Instance.SCP294UsesLeft[scp294] == 0) {
-                                player.ShowHint("<size=300>\n</size>\n<size=35>You Approach SCP-294.</size>\n<size=30>It seems to have lost all power, rendering it unusable for now...</size>", 3);
+                                player.ShowManagedHint("<size=300>\n</size>\n<size=35>Вы подошли к <color=#ff9e13>SCP-294</color>.</size>\n<size=30>Похоже, он потерял всю мощность, что делает его непригодным для использования на данный момент....</size>", 5f);
                             }
                             else
                             {
-                                player.ShowHint("<size=300>\n</size>\n<size=35>You Approach SCP-294.</size>\n<size=30>If you had a coin, you could buy a drink...</size>\n<size=20>(Hold a Coin, Open Console, Use the command '.scp294 <drink>' to dispense your drink of choice)</size>", 3);
+                                player.ShowManagedHint("<size=300>\n</size>\n<size=35>Вы подошли к <color=#ff9e13>SCP-294</color>.</size>\n<size=30>Если бы у вас была монета, вы могли бы купить выпивку....</size>\n<size=20>(Держите монету, откройте консоль, напишите команду <color=#418dff>'.scp294 <drink>'</color>, чтобы получить напиток по вашему выбору или <color=#418dff>'.scp294 random'</color> по случайному выбору.)</size>", 7f);
                             }
                             SCP294.Instance.PlayersNear294.Add(player.UserId);
                         }

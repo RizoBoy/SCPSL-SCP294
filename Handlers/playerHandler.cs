@@ -1,4 +1,5 @@
-﻿using CustomPlayerEffects;
+﻿using AdvancedHints;
+using CustomPlayerEffects;
 using Exiled.API.Enums;
 using Exiled.Events.EventArgs.Player;
 using Hazards;
@@ -28,7 +29,7 @@ namespace SCP294.handlers
 
             if (SCP294.Instance.CustomDrinkItems.TryGetValue(args.Item.Serial, out DrinkInfo drinkInfo))
             {
-                args.Player.ShowHint($"You pulled out the Drink of {drinkInfo.DrinkName}", 3);
+                args.Player.ShowManagedHint($"Вы достали напиток: {drinkInfo.DrinkName}", 3);
             }
         }
 
@@ -57,7 +58,7 @@ namespace SCP294.handlers
                 if (drinkInfo.DrinkCallback != null) drinkInfo.DrinkCallback(args.Player);
 
                 // Show the Message for Drinking
-                args.Player.ShowHint(drinkInfo.DrinkMessage, 5);
+                args.Player.ShowManagedHint(drinkInfo.DrinkMessage, 5);
 
                 args.Player.CurrentItem = null;
 

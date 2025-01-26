@@ -1,4 +1,5 @@
-﻿using CommandSystem;
+﻿using AdvancedHints;
+using CommandSystem;
 using CustomPlayerEffects;
 using Exiled.API.Enums;
 using Exiled.API.Features;
@@ -49,12 +50,12 @@ namespace SCP294.Commands
             Player player = Player.Get(((PlayerCommandSender)sender).ReferenceHub);
             if (player.Role.Team == Team.Dead)
             {
-                response = "Please wait until you spawn in as a normal class.";
+                response = "Пожалуйста, подождите, пока вы не появитесь как игровой класс.";
                 return false;
             }
             if (player.Role.Team == Team.SCPs)
             {
-                response = "SCPs cannot interact with SCP-294.";
+                response = "<color=red>SCP</color> не могут взаимодействовать с <color=#>SCP-294</color>.";
                 return false;
             }
 
@@ -64,25 +65,25 @@ namespace SCP294.Commands
                 SchematicObject scp294 = SCP294Object.GetClosest294(player);
                 if (SCP294.Instance.SpawnedSCP294s[scp294])
                 {
-                    response = "This SCP-294 is on cooldown!";
+                    response = "<color=#ff9e13>SCP-294</color> находится на перезарядке.!";
                     return false;
                 }
                 if (SCP294.Instance.SCP294UsesLeft[scp294] == 0)
                 {
-                    response = "This SCP-294 has been deactivated...";
+                    response = "<color=#ff9e13>SCP-294</color> деактивирован.";
                     return false;
                 }
                 if (arguments.Count < 1 && !SCP294.Instance.Config.ForceRandom)
                 {
-                    response = "Requires you hold a coin to work | Usage: .scp294 <drink-name> OR .scp294 player <player>";
+                    response = "Для работы требуется держать монету | Команда: <color=#418dff>.scp294 <название напитка></color> или <color=#418dff>.scp294 player <ник игрока></color> или <color=#418dff>.scp294 random</color>";
                     return false;
                 }
                 if (player.CurrentItem == null || player.CurrentItem.Type != ItemType.Coin)
                 {
-                    response = "You aren't holding a coin to buy a drink with.";
+                    response = "У вас нет монеты, чтобы купить выпивку.";
                     return false;
                 }
-                if (arguments.Count > 0 && arguments.At(0).ToLower() == "player") {
+                if (arguments.Count > 0 && (arguments.At(0).ToLower() == "player" || arguments.At(0).ToLower() == "игрок")) {
                     // Player Cup
                     // Try and Get player
                     Player targetPlayer = Player.Get(String.Join(" ", arguments.Skip(1).ToArray()));
@@ -106,7 +107,7 @@ namespace SCP294.Commands
                                 controller.ChangeState(statusEffect.GetType().Name, newValue, effect.Time, effect.ShouldAddIfPresent);
                             }
                         }
-                        targetPlayer.ShowHint($"You feel queasy, as if you're missing some of your body's contents...\n<size=20>({player.Nickname} ordered a Cup of You from SCP-294)</size>", 5);
+                        targetPlayer.ShowManagedHint($"Вы чувствуете тошноту, как будто вам не хватает какой-то части вашего тела...n<size=20>({player.Nickname} заказал стакан из вас в <color=#ff9e13>SCP-294</color>)</size>", 5);
 
                         // Found Drink
                         player.RemoveItem(player.CurrentItem);
@@ -132,7 +133,7 @@ namespace SCP294.Commands
                                 ItemSerial = drinkItem.Serial,
                                 ItemObject = drinkItem,
                                 DrinkEffects = new List<DrinkEffect>() { },
-                                DrinkMessage = "The drink tastes like blood. It's still warm.",
+                                DrinkMessage = "Напиток на вкус как кровь. Еще и теплый.",
                                 DrinkName = targetPlayer.Nickname,
                                 KillPlayer = false,
                                 KillPlayerString = "",
@@ -150,20 +151,20 @@ namespace SCP294.Commands
                         });
 
                         SCP294Object.SetSCP294Uses(scp294, SCP294.Instance.SCP294UsesLeft[scp294] - 1);
-                        response = $"SCP-294 Started Dispensing a Drink of {targetPlayer.Nickname}.";
+                        response = $"SCP-294 начал разливать напиток {targetPlayer.Nickname}.";
                         return true;
                     }
-                    response = "SCP-294 couldn't determine your drink, and refunded you your coin.";
+                    response = "SCP-294 не смог определить ваш напиток и вернул вам монету.";
                     return false;
                 } 
-                else if (arguments.Count > 0 && arguments.At(0).ToLower() == "playercum")
+                else if (arguments.Count > 0 && arguments.At(0).ToLower() == "кам")
                 {
                     // Player Cup
                     // Try and Get player
                     Player targetPlayer = Player.Get(String.Join(" ", arguments.Skip(1).ToArray()));
                     if (targetPlayer != null)
                     {
-                        targetPlayer.ShowHint($"You feel funny, almost excited in a way...\n<size=20>({player.Nickname} ordered a Cup of You from SCP-294)</size>", 5);
+                        targetPlayer.ShowManagedHint($"Вы чувствуете себя странно, почти взволнованно...\n<size=20>({player.Nickname} заказал стакан из вас в <color=#ff9e13>SCP-294</color>)</size>", 5);
 
                         // Found Drink
                         player.RemoveItem(player.CurrentItem);
@@ -189,8 +190,8 @@ namespace SCP294.Commands
                                 ItemSerial = drinkItem.Serial,
                                 ItemObject = drinkItem,
                                 DrinkEffects = new List<DrinkEffect>() { },
-                                DrinkMessage = "Kind of salty. Tastes good though. Feels nice and warm.",
-                                DrinkName = $"{targetPlayer.Nickname}'s Cum",
+                                DrinkMessage = "Немного солоновато. Но на вкус неплохо. Приятно и тепло.",
+                                DrinkName = $"Кам {targetPlayer.Nickname}",
                                 KillPlayer = false,
                                 KillPlayerString = "",
                                 HealAmount = 0,
@@ -207,10 +208,10 @@ namespace SCP294.Commands
                         });
 
                         SCP294Object.SetSCP294Uses(scp294, SCP294.Instance.SCP294UsesLeft[scp294] - 1);
-                        response = $"SCP-294 Started Dispensing a Drink of{targetPlayer.Nickname}'s Cum.";
+                        response = $"SCP-294 начал разливать Кам {targetPlayer.Nickname}.";
                         return true;
                     }
-                    response = "SCP-294 couldn't determine your drink, and refunded you your coin.";
+                    response = "SCP-294 не смог определить ваш напиток и вернул вам монету.";
                     return false;
                 }
                 else 
@@ -257,7 +258,7 @@ namespace SCP294.Commands
                                             ExplosiveGrenade grenade = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
                                             grenade.FuseTime = 0.1f;
                                             grenade.SpawnActive(player.Position, player);
-                                            player.Kill($"Ordered a backfired {drinkName} from SCP-294");
+                                            player.Kill($"Заказал обратный эффект {drinkName} у SCP-294");
                                         });
 
                                         // Cooldown
@@ -267,7 +268,7 @@ namespace SCP294.Commands
                                             SCP294.Instance.SpawnedSCP294s[scp294] = false;
                                         });
 
-                                        response = $"SCP-294 Started Dispensing a Drink of {drinkName}. {(SCP294.Instance.Config.ForceRandom ? "(Server Forced Random Drink)" : "")}";
+                                        response = $"SCP-294 начал разливать напиток {drinkName}. {(SCP294.Instance.Config.ForceRandom ? "(Принудительный случайный напиток от сервера)" : "")}";
                                         SCP294Object.SetSCP294Uses(scp294, SCP294.Instance.SCP294UsesLeft[scp294] - 1);
                                         return true;
                                     } else
@@ -290,7 +291,7 @@ namespace SCP294.Commands
                                                 controller.ChangeState(statusEffect.GetType().Name, newValue, effect.Time, effect.ShouldAddIfPresent);
                                             }
                                         }
-                                        player.ShowHint($"You feel queasy, as if you're missing some of your body's contents...\n<size=20>(SCP-294 Backfired, Dispensing a Cup of {player.Nickname})</size>", 5);
+                                        player.ShowManagedHint($"Вы чувствуете тошноту, как будто вам не хватает какой-то части вашего тела...\n<size=20>(<color=#ff9e13>SCP-294</color> дал обратный эффект, выдав стакан {player.Nickname}'а)</size>", 5);
 
                                         // Found Drink
                                         player.RemoveItem(player.CurrentItem);
@@ -316,7 +317,7 @@ namespace SCP294.Commands
                                                 ItemSerial = drinkItem.Serial,
                                                 ItemObject = drinkItem,
                                                 DrinkEffects = new List<DrinkEffect>() { },
-                                                DrinkMessage = "The drink tastes like blood. It's still warm.",
+                                                DrinkMessage = "Напиток на вкус как кровь. Еще теплый.",
                                                 DrinkName = player.Nickname,
                                                 KillPlayer = false,
                                                 KillPlayerString = "",
@@ -333,7 +334,7 @@ namespace SCP294.Commands
                                             SCP294.Instance.SpawnedSCP294s[scp294] = false;
                                         });
 
-                                        response = $"SCP-294 Backfired!!! It Started Dispensing a Drink of {player.Nickname}";
+                                        response = $"SCP-294 дал обратный эффект!!! Он начал разливать напиток {player.Nickname}";
                                         SCP294Object.SetSCP294Uses(scp294, SCP294.Instance.SCP294UsesLeft[scp294] - 1);
                                         return true;
                                     }
@@ -371,7 +372,7 @@ namespace SCP294.Commands
                                             ExplosiveGrenade grenade = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
                                             grenade.FuseTime = 0.1f;
                                             grenade.SpawnActive(player.Position, player);
-                                            player.Kill($"Ordered a {drinkName} from SCP-294");
+                                            player.Kill($"Заказал {drinkName} у SCP-294");
                                         } else
                                         {
                                             Item drinkItem = Item.Create(customDrink.AntiColaModel ? ItemType.AntiSCP207 : ItemType.SCP207);
@@ -412,19 +413,19 @@ namespace SCP294.Commands
                                         SCP294.Instance.SpawnedSCP294s[scp294] = false;
                                     });
 
-                                    response = $"SCP-294 Started Dispensing a Drink of {drinkName}. {(SCP294.Instance.Config.ForceRandom ? "(Server Forced Random Drink)" : "")}";
+                                    response = $"SCP-294 начал разливать напиток {drinkName}. {(SCP294.Instance.Config.ForceRandom ? "(Принудительный случайный напиток от сервера)" : "")}";
                                     SCP294Object.SetSCP294Uses(scp294, SCP294.Instance.SCP294UsesLeft[scp294] - 1);
                                     return true;
                                 }
                             }
                         }
                     }
-                    response = "SCP-294 couldn't determine your drink, and refunded you your coin.";
+                    response = "SCP-294 не смог определить ваш напиток и вернул вам монету.";
                     return false;
                 }
             }
 
-            response = "You aren't close enough to SCP-294!";
+            response = "Вы недостаточно близки к SCP-294!";
             return false;
         }
     }

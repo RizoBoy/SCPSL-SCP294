@@ -54,7 +54,7 @@ namespace SCP294.Types.Config
         /// <summary>
         /// The Message that will appear when you Drink the Custom Drink
         /// </summary>
-        public string DrinkMessage { get; set; } = "You drank the placeholder drink. Very cool";
+        public string DrinkMessage { get; set; } = "Вы выпили плейсхолдер. Только как?";
         /// <summary>
         /// List of effects to apply when Drinking the Custom Drink
         /// </summary>

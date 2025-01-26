@@ -14,6 +14,7 @@ using System.Linq;
 using UnityEngine;
 using Exiled.API.Features.Items;
 using Exiled.API.Enums;
+using AdvancedHints;
 
 namespace SCP294.Commands
 {
@@ -102,7 +103,7 @@ namespace SCP294.Commands
                                 controller.ChangeState(statusEffect.GetType().Name, newValue, effect.Time, effect.ShouldAddIfPresent);
                             }
                         }
-                        targetPlayer.ShowHint($"You feel queasy, as if you're missing some of your body's contents...\n<size=20>({player.Nickname} ordered a Cup of You from SCP-294)</size>", 5);
+                        targetPlayer.ShowManagedHint($"Вам становится дурно, как будто чего-то не хватает в вашем организме...\n<size=20>({player.Nickname} заказал стакан из вас в <color=#ff9e13>SCP-294</color>)</size>", 5);
 
                         // Found Drink
                         Item drinkItem = Item.Create(ItemType.SCP207);
@@ -114,7 +115,7 @@ namespace SCP294.Commands
                             ItemSerial = drinkItem.Serial,
                             ItemObject = drinkItem,
                             DrinkEffects = new List<DrinkEffect>() { },
-                            DrinkMessage = "The drink tastes like blood. It's still warm.",
+                            DrinkMessage = "Напиток на вкус как кровь. Еще и теплый.",
                             DrinkName = targetPlayer.Nickname,
                             KillPlayer = false,
                             KillPlayerString = "",
@@ -123,20 +124,20 @@ namespace SCP294.Commands
                             Tantrum = false
                         });
 
-                        response = $"Gave yourself a Drink of {targetPlayer.Nickname}.";
+                        response = $"Выдал самому себе напиток из {targetPlayer.Nickname}.";
                         return true;
                     }
-                    response = "Couldn't Find a Drink with this Name";
+                    response = "Не удалось найти напиток с таким именем.";
                     return false;
                 }
-                else if (arguments.At(1).ToLower() == "playercum")
+                else if (arguments.At(1).ToLower() == "кам")
                 {
                     // Player Cup
                     // Try and Get player
                     Player targetPlayer = Player.Get(String.Join(" ", arguments.Skip(2).ToArray()));
                     if (targetPlayer != null)
                     {
-                        targetPlayer.ShowHint($"You feel funny, almost excited in a way...\n<size=20>({player.Nickname} ordered a Cup of You from SCP-294)</size>", 5);
+                        targetPlayer.ShowManagedHint($"Вы чувствуете себя странно, почти взволнованно...\n<size=20>({player.Nickname} заказал стакан из вас в <color=#ff9e13>SCP-294</color>)</size>", 5);
 
                         // Found Drink
                         Item drinkItem = Item.Create(ItemType.SCP207);
@@ -148,8 +149,8 @@ namespace SCP294.Commands
                             ItemSerial = drinkItem.Serial,
                             ItemObject = drinkItem,
                             DrinkEffects = new List<DrinkEffect>() { },
-                            DrinkMessage = "Kind of salty. Tastes good though. Feels nice and warm.",
-                            DrinkName = $"{targetPlayer.Nickname}'s Cum",
+                            DrinkMessage = "Немного солоновато. Но на вкус неплохо. Приятно и тепло.",
+                            DrinkName = $"Кам {targetPlayer.Nickname}",
                             KillPlayer = false,
                             KillPlayerString = "",
                             HealAmount = 0,
@@ -157,10 +158,10 @@ namespace SCP294.Commands
                             Tantrum = false
                         });
 
-                        response = $"Gave yourself a Drink of {targetPlayer.Nickname}'s Cum.";
+                        response = $"Выдал самому себе напиток из Кама {targetPlayer.Nickname}.";
                         return true;
                     }
-                    response = "Couldn't Find a Drink with this Name";
+                    response = "Не удалось найти напиток с таким именем.";
                     return false;
                 }
                 else
@@ -191,12 +192,12 @@ namespace SCP294.Commands
                                     DrinkCallback = customDrink.DrinkCallback
                                 });
 
-                                response = $"Gave yourself a Drink of {drinkName}.";
+                                response = $"Выдал самому себе напиток {drinkName}.";
                                 return true;
                             }
                         }
                     }
-                    response = "Couldn't Find a Drink with this Name";
+                    response = "Не удалось найти напиток с таким названием";
                     return false;
                 }
             }
@@ -205,9 +206,6 @@ namespace SCP294.Commands
                 response = "Invalid Subcommand.";
                 return false;
             }
-
-            response = "Something is very wrong. Let me know if you somehow get this result.";
-            return false;
         }
     }
 }
